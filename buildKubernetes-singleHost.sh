@@ -20,17 +20,19 @@ apt-get install -y kubelet kubeadm kubernetes-cni
 #--apiserver-advertise-address  Kubernetes API-server public IP-address
 #--skip-preflight-checks  kubeadm skip checks host kernel for exist functions
 #--kubernetes-version stable-1.6  hard choice cluster version
-kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=10.80.75.9 --skip-preflight-checks --kubernetes-version stable-1.6
+kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=10.80.75.9 --kubernetes-version stable-1.6
 
 #Packet Ubuntu user add
-useradd packet -G sudo -m -s /bin/bash
-passwd packet=Pt123456
+#useradd packet -G sudo -m -s /bin/bash
+#passwd packet
 
-sudo su packet
-cd $HOME
+#sleep 10
+
+#sudo su ruslan
+
 sudo whoami
 sudo cp /etc/kubernetes/admin.conf $HOME/
-sudo chown $(id -u):(id -g) $HOME/admin.conf
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
 echo "export KUBECONFIG=$HOME/admin.conf" | tee -a ~/.bashrc
 
 #Apply network configuration for pods(flannel)
@@ -50,5 +52,6 @@ kubectl get pods
 #kubectl run guids --image=alexellis2/guid-service:latest --port 9000
 
 #For dashboard
-kubectl create -f https://git.io/kube-dashboard
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
 kubectl proxy
+
