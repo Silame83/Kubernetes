@@ -4,5 +4,7 @@ RUN sudo apt-get update && sudo apt-get install -y nodejs &&
 RUN nodejs -v
 
 #----------------Install frameworks------------------------
-FROM nodejs
-RUN npm install express
+FROM nodejs:10
+RUN npm install express && npm install nodemon --save-dev \
+    npm i bcryptjs body-parser cors jsonwebtoken moment mongoose \
+    npm i morgan multer passport passport-jwt
